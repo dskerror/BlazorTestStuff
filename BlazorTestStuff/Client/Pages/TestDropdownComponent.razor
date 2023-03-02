@@ -1,0 +1,38 @@
+﻿@page "/TestDropdownComponent"
+@using static BlazorTestStuff.Client.Components.MudblazorDropdownComponent;
+<EditForm Model="model" OnSubmit="Create">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <MudCard Class="mb-2">
+        <MudCardContent>
+            <MudblazorDropdownComponent @bind-Value="model.Category" />
+        </MudCardContent>
+    </MudCard>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Create</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private ExampleClass model;
+    //public IEnumerable<Category> SelectedCategories;
+
+    protected override void OnInitialized()
+    {
+        model = new ExampleClass();
+        //SelectedCategories = new List<Category>();
+    }
+
+    private async Task Create()
+    {
+        Console.WriteLine(model.Category);
+    }
+
+    public class ExampleClass
+    {
+        public Category Category { get; set; }
+    }
+}

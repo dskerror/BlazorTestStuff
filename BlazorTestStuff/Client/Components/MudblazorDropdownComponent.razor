@@ -1,0 +1,60 @@
+﻿@if (_IsLoaded)
+{
+    <MudSelect T="Category" ValueChanged="@UpdateValue" Label="Categories" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+        @foreach (var item in Categories)
+        {
+            <MudSelectItem Value="@item" />
+        }
+    </MudSelect>
+}
+
+
+@code {
+    [Parameter]
+    //public IEnumerable<Category> SelectedCategories { get; set; }    
+    public Category Value { get; set; }
+    public List<Category> Categories;
+    public bool _IsLoaded;
+
+    [Parameter]
+    public EventCallback<Category> ValueChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //SelectedCategories = new List<Category>();
+        Categories = new List<Category>()
+        {
+            new Category("Category1"),
+            new Category("Category2"),
+            new Category("Category3"),
+            new Category("Category4"),
+            new Category("Category5"),
+        };
+        _IsLoaded = true;
+    }
+
+    async Task UpdateValue(Category SelectedValue)
+    {
+        Value = SelectedValue;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+
+    public class Category
+    {
+        public Category(string name)
+        {
+            Name = name;
+        }
+
+        public readonly string Name;
+        public override bool Equals(object o)
+        {
+            var other = o as Category;
+            return other?.Name == Name;
+        }
+
+        public override int GetHashCode() => Name?.GetHashCode() ?? 0;
+        public override string ToString() => Name;
+    }
+}
